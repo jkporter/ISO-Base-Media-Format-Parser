@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ISO base media file format" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=&quot;ISO base media file format&quot;;Integrated Security=True" SettingsObjectName="Mpeg4Tagging.Properties.Settings" SettingsPropertyName="ISO_base_media_file_formatConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.[Box Definitions]" Member="BoxDefinitions">
+    <Type Name="BoxDefinition">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Internal Box UUID]" Member="InternalBoxUuid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Conatiner" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Mandatory" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[Quantity Minimum]" Member="QuantityMinimum" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="[Quantity Maximum]" Member="QuantityMaximum" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Association Name="Box_BoxDefinition" Member="Box" ThisKey="InternalBoxUuid" OtherKey="InternalUuid" Type="Box" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Boxes" Member="Boxes">
+    <Type Name="Box" Id="ID1">
+      <Column Name="[Internal UUID]" Member="InternalUuid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Box_BoxDefinition" Member="BoxDefinitions" ThisKey="InternalUuid" OtherKey="InternalBoxUuid" Type="BoxDefinition" />
+      <Association Name="Box_BoxUuid" Member="BoxUuids" ThisKey="InternalUuid" OtherKey="InternalUuid" Type="BoxUuid" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Box UUIDs]" Member="BoxUuids">
+    <Type Name="BoxUuid">
+      <Column Name="UUID" Member="Uuid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[Internal UUID]" Member="InternalUuid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Box_BoxUuid" Member="Box" ThisKey="InternalUuid" OtherKey="InternalUuid" Type="Box" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.CreateBox" Method="CreateBox">
+    <ElementType IdRef="ID1" />
+  </Function>
+</Database>
